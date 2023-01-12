@@ -4,10 +4,13 @@ const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
 const htmlNuevo = document.querySelector("#preview")
 var files;
+var question;
+var columna_question=[];
+var columna_valor=[];
 
 button.addEventListener("click", e => {
     input.click();
-});
+}); 
 
 input.addEventListener("change", e => {
     let file = input.files;
@@ -50,19 +53,33 @@ function showFiles(files) {
 
 function processFile(file){
     const docType = file.type;
-    const validExt = ["text/html", "message/rfc822"]
+    const validExt = ["text/html", "message/rfc822"];
     
-    console.log("La extension es: " + docType)
+    console.log("La extension es: " + docType);
 
     if (validExt.includes(docType)){
         const fileReader = new FileReader();
+
+        fileReader.readAsText(file);
         
         fileReader.addEventListener("load", e =>{
             const filetext = fileReader.result;
-            
 
             htmlNuevo.innerHTML = filetext
+
+            question = document.querySelectorAll(".questionColumn");
+
+            for (let i = 0; i < question.length; i++) {
+                    columna_question[i] = question[i].textContent.split("\n").join("");
+                    columna_valor[i] = document.getElementById("value_"+question[i].id.replace(/[^0-9]+/g, "")).textContent.split("\n").join("");
+
+                    console.log(columna_question[i] +" - "+ columna_valor[i])
+
+            } 
             
+
+
+            /*
             var nombre = "";//Nuevo     value_3
             var usuario = "";//Regular  value_25
             var correo;     //          value_4
@@ -78,6 +95,13 @@ function processFile(file){
             var curso;      //          value_14
             var nivel;      //          value_35 - regular 32
             var observacion;//          value_16
+
+            /*var datos = [nombre, usuario, correo, tipoCedula, cedula, numero, estado, moneda, formaPago, monto, fechaPago, ref, curso, nivel];
+            alert("tiene "+datos.length)
+
+            datos.forEach(element => {
+                element = document.getElementById(element[1]).textContent;
+            });
 
             let ingreso = document.querySelector("strong").textContent.toUpperCase();
 
@@ -110,24 +134,18 @@ function processFile(file){
                 if (formaPago.includes("ZELLE")){
                     ref= document.getElementById("value_33").textContent;
                 }
-                else /*if(formaPago.includes("TRANSFERENCIA") or wester)*/{
+                else if(formaPago.includes("TRANSFERENCIA") || formaPago.includes("WESTER")){
                     ref= document.getElementById("value_23").textContent;
                 }
-            }
+            }*/
+            
 
-            console.log("Nombre: "+nombre+"\nUsuario: "+usuario+"\ntipoCedula: "+tipoCedula+"\nCedula: "+cedula+"\nCorreo: "+correo+"\nNumero: "+numero+"\nEstado: "+estado+"\nMoneda: "+moneda+"\nForma de pago: "+formaPago+"\nMonto: "+monto+"\nFecha del pago: "+fechaPago+"\nReferencia: "+ref+"\nCurso: "+curso+"\nNivel: "+nivel);
 
+            //console.log("Nombre: "+nombre+"\nUsuario: "+usuario+"\ntipoCedula: "+tipoCedula+"\nCedula: "+cedula+"\nCorreo: "+correo+"\nNumero: "+numero+"\nEstado: "+estado+"\nMoneda: "+moneda+"\nForma de pago: "+formaPago+"\nMonto: "+monto+"\nFecha del pago: "+fechaPago+"\nReferencia: "+ref+"\nCurso: "+curso+"\nNivel: "+nivel);
 
         });
-
-        //fileReader.readAsDataURL(file);
-        fileReader.readAsText(file)
-
-
-        //uploadFile(file)
-        /*const fileReader = new FileReader();
-        const id = "file-" + Math.random().toString(32).substring(7);*/
+        
     }else{
-        alert("La extension no es valida")
+        alert("La extension no es valida");
     }
 }
