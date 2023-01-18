@@ -3,11 +3,21 @@ const dragText = dropArea.querySelector("h2");
 const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
 const htmlNuevo = document.querySelector("#preview")
+const botonExcel = document.querySelector("#excel")
+
 var files;
 var question;
 var columna_question=[];
 var columna_valor=[];
 
+
+//Crear excel con los datos cargados del html
+botonExcel.addEventListener("click", e => {
+    console.log("click");
+
+});
+
+//importar 
 button.addEventListener("click", e => {
     input.click();
 }); 
@@ -75,7 +85,7 @@ function processFile(file){
 
                     console.log(columna_question[i] +" - "+ columna_valor[i])
 
-            } 
+            }
             
 
 
