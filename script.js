@@ -5,8 +5,6 @@ const input = dropArea.querySelector("#input-file");
 const htmlNuevo = document.querySelector("#preview")
 var files;
 var question;
-var columna_question=[];
-var columna_valor=[];
 
 button.addEventListener("click", e => {
     input.click();
@@ -60,10 +58,30 @@ function processFile(file){
     if (validExt.includes(docType)){
         const fileReader = new FileReader();
 
+        let columna_question=[];
+        let columna_valor=[];
+
         fileReader.readAsText(file);
         
         fileReader.addEventListener("load", e =>{
             const filetext = fileReader.result;
+
+            let nombre = "";//
+            let usuario = "";//
+            let correo = "";     //    
+            let tipoCedula = "";// 
+            let cedula = "";     //          
+            let numero = "";//   
+            let estado = "";//   
+            let moneda = "";     //          
+            let formaPago = "";  //          
+            let monto = "";      //          
+            let fechaPago = "";  //           
+            let ref = "";   //              
+            let curso = "";      //          
+            let nivel = "";      //
+            let observacion = "";//          
+
 
             htmlNuevo.innerHTML = filetext
 
@@ -73,10 +91,108 @@ function processFile(file){
                     columna_question[i] = question[i].textContent.split("\n").join("");
                     columna_valor[i] = document.getElementById("value_"+question[i].id.replace(/[^0-9]+/g, "")).textContent.split("\n").join("");
 
-                    console.log(columna_question[i] +" - "+ columna_valor[i])
 
-            } 
+            }
+ 
+            for (let i = 0; i < columna_question.length; i++) {
+                switch (columna_question[i].split(" ").join("").trim()){
+                    case "Nombre":
+                        nombre = columna_valor[i]
+                        console.log("Nombre guardado: "+nombre)
+                        break;
+
+                    case "Nombredeusuario":
+                        usuario = columna_valor[i]
+                        console.log("usuario guardado "+usuario)
+                        break;
+
+                    case "CorreoElectrónico":
+                        correo = columna_valor[i]
+                        console.log("correo guardado "+correo)
+                        break;
+
+                    case "Tipodedocumentodeidentidad":
+                        tipoCedula = columna_valor[i]
+                        console.log("tipo de cedula guardado")
+                        break;
+                    
+                    case "Nro.documentodeidentidad":
+                        cedula = columna_valor[i]
+                        console.log("Numero cedula guardado")
+                        break;
+
+                    case "Númerodeteléfono":
+                        numero = columna_valor[i]
+                        console.log("numero guardado")
+                        break;
+                        
+                    case "Estadodondereside":
+                        estado = columna_valor[i]
+                        console.log("estado guardado")
+                        break;
+
+                    case "Monedadepago":
+                        moneda = columna_valor[i]
+                        console.log("moneda guardado")
+                        break;
+
+                    case "Formadepago":
+                        formaPago = columna_valor[i]
+                        console.log("forma de pago guardado")
+                        break;
+
+                    case "Montopagado":
+                        monto = columna_valor[i]
+                        console.log("monto guardado")
+                        break;
+
+                    case "Fechaenlaqueserealizoelpago":
+                        fechaPago = columna_valor[i]
+                        console.log("fecha pago guardado")
+                        break;
+
+                    case "Nro.referenciadepago":
+                        ref = columna_valor[i]
+                        console.log("referencia guardado")
+                        break;
+
+                    case "Niveldeexperienciaenultrasonidomedico":
+                        nivel = columna_valor[i]
+                        console.log("experiencia guardado "+nivel)
+                        break;
+                        
+                    case "Observaciones":
+                        observacion = columna_valor[i]
+                        console.log("observación guardado")
+                        break;
+
+                    default:
+                        console.log("Error de asignación. no guardado: "+columna_question[i]+" Valor: "+columna_valor[i])
+                        break;
+                }
+            }
+
+            let alumno = {
+                "nombre": nombre,
+                "usuario": usuario,
+                "correo": correo,
+                "tipoCedula": tipoCedula,
+                "cedula": cedula,
+                "numero": numero,
+                "estado": estado,
+                "moneda": moneda,
+                "formaPago": formaPago,
+                "monto": monto,
+                "fechaPago": fechaPago,
+                "ref": ref,
+                "nivel": nivel,
+                "observacion": observacion
+            }
+
+            console.log("alumno: " +alumno.nombre)
             
+
+            //var alumnos = {columna_question[i]: columna_valor[i]};
 
 
             /*
