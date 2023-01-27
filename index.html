@@ -9,15 +9,28 @@
 </head>
 <body>
 
-    <div class="drop-area">
-        <h2>Arrastra y suelta los archivos</h2>
-        <span>O</span>
-        <button>Selecciona tus archivos</button>
-        <input type="file" name="" id="input-file" hidden multiple>
+    <div id="todo">
+        <div class="drop-area">
+            <h2>Arrastra y suelta los archivos</h2>
+            <span>o</span>
+            <button class="boton">Selecciona tus archivos</button>
+            <input type="file" name="" id="input-file" hidden multiple>
+        </div>
+
+        <div class="botones">
+            <button class="boton" id="excel">Crear Archivo Excel</button>
+        </div>
     </div>
+
+
+
     <div id="preview" hidden></div>
 
     <script src="script.js"></script>
+
+    <!--Libreria para crear hojas de excel-->
+    <script src="sheetjs/shim.min.js"></script>
+    <script src="sheetjs/xlsx.full.min.js"></script>
 
 </body>
 </html>

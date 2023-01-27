@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border—box;
+    box-sizing: border-box;
     font-family: "Helvetíca Neue", Helvetíca, Arial, sans—serif;
 }
 
@@ -11,6 +11,8 @@ body{
     justify-content: center;
     min-height: 100vh;
 }
+
+
 
 .drop-area{
     border: 5px dashed #ddd;
@@ -41,7 +43,7 @@ body{
     font-weight: 500px;
 }
 
-.drop-area button{
+button{
     padding: 10px 20px;
     font-size: 20px;
     border: 0;
@@ -51,6 +53,11 @@ body{
     border-radius: 5px;
     cursor: pointer;
     margin: 10px;
+}
+
+#excel{
+    margin-left: 35%;
+    background-color: #5aad52;
 }
 
 .file-container{

@@ -3,9 +3,19 @@ const dragText = dropArea.querySelector("h2");
 const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
 const htmlNuevo = document.querySelector("#preview")
+const botonExcel = document.querySelector("#excel")
+
 var files;
 var question;
 
+
+//Crear excel con los datos cargados del html
+botonExcel.addEventListener("click", e => {
+    console.log("click");
+
+});
+
+//importar 
 button.addEventListener("click", e => {
     input.click();
 }); 
