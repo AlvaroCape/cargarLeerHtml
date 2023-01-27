@@ -2,14 +2,12 @@ const dropArea = document.querySelector(".drop-area");
 const dragText = dropArea.querySelector("h2");
 const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
-const htmlNuevo = document.querySelector("#preview")
-const botonExcel = document.querySelector("#excel")
+const htmlNuevo = document.querySelector("#preview");
+const botonExcel = document.querySelector("#excel");
 
-var files;
-var question;
+var files, question, alumnos, ingreso;
 var columna_question=[];
 var columna_valor=[];
-
 
 //Crear excel con los datos cargados del html
 botonExcel.addEventListener("click", e => {
@@ -56,10 +54,43 @@ function showFiles(files) {
     }
     else{
         for (const file of files) {
-            processFile(file);    
+            processFile(file);
         }
     }
 } 
+
+
+
+
+
+function guardarInfo(dato, valor, i){
+
+    let nombre, usuario, correo, tipoCedula, cedula, numero, estado, moneda, formaPago, monto, fechaPago, ref, curso, nivel, observacion;
+
+    //console.log(dato +" - "+ valor);
+
+    alumnos = {
+        "nombre": valor,
+    };
+
+    if (i++ == question.length){
+
+    }
+}
+
+function leerInfo(){
+
+    console.log(typeof alumnos)
+    console.log(alumnos)
+    console.log(JSON.stringify(columna_valor));
+    
+}
+
+
+
+
+
+
 
 function processFile(file){
     const docType = file.type;
@@ -79,16 +110,17 @@ function processFile(file){
 
             question = document.querySelectorAll(".questionColumn");
 
-            for (let i = 0; i < question.length; i++) {
+            for (let i = 0; i < question.length; i++){
                     columna_question[i] = question[i].textContent.split("\n").join("");
                     columna_valor[i] = document.getElementById("value_"+question[i].id.replace(/[^0-9]+/g, "")).textContent.split("\n").join("");
+                    ingreso = document.querySelector("strong").textContent.toUpperCase();
 
-                    console.log(columna_question[i] +" - "+ columna_valor[i])
-
+                    guardarInfo(columna_question[i], columna_valor[i], i);
             }
             
-
-
+            
+            leerInfo();
+            
             /*
             var nombre = "";//Nuevo     value_3
             var usuario = "";//Regular  value_25
