@@ -5,13 +5,20 @@ const input = dropArea.querySelector("#input-file");
 const htmlNuevo = document.querySelector("#preview");
 const botonExcel = document.querySelector("#excel");
 
-var files, question, alumnos, ingreso;
-var columna_question=[];
-var columna_valor=[];
+var files, question, ingreso;
+var alumnos = [];
 
 //Crear excel con los datos cargados del html
 botonExcel.addEventListener("click", e => {
     console.log("click");
+
+    const worksheet = XLSX.utils.json_to_sheet(alumnos[0]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Dates");
+
+    XLSX.writeFile(workbook, "alumno.xlsx");
+
+    //alumnos = []    //vaciar despues de agregar los alumnos
 
 });
 
@@ -61,37 +68,6 @@ function showFiles(files) {
 
 
 
-
-
-function guardarInfo(dato, valor, i){
-
-    let nombre, usuario, correo, tipoCedula, cedula, numero, estado, moneda, formaPago, monto, fechaPago, ref, curso, nivel, observacion;
-
-    //console.log(dato +" - "+ valor);
-
-    alumnos = {
-        "nombre": valor,
-    };
-
-    if (i++ == question.length){
-
-    }
-}
-
-function leerInfo(){
-
-    console.log(typeof alumnos)
-    console.log(alumnos)
-    console.log(JSON.stringify(columna_valor));
-    
-}
-
-
-
-
-
-
-
 function processFile(file){
     const docType = file.type;
     const validExt = ["text/html", "message/rfc822"];
@@ -101,10 +77,30 @@ function processFile(file){
     if (validExt.includes(docType)){
         const fileReader = new FileReader();
 
+        let columna_question=[];
+        let columna_valor=[];
+
         fileReader.readAsText(file);
         
         fileReader.addEventListener("load", e =>{
             const filetext = fileReader.result;
+
+            let nombre = "";//
+            let usuario = "";//
+            let correo = "";     //    
+            let tipoCedula = "";// 
+            let cedula = "";     //          
+            let numero = "";//   
+            let estado = "";//   
+            let moneda = "";     //          
+            let formaPago = "";  //          
+            let monto = "";      //          
+            let fechaPago = "";  //           
+            let ref = "";   //              
+            let curso = "";      //          
+            let nivel = "";      //
+            let observacion = "";//          
+
 
             htmlNuevo.innerHTML = filetext
 
@@ -115,12 +111,111 @@ function processFile(file){
                     columna_valor[i] = document.getElementById("value_"+question[i].id.replace(/[^0-9]+/g, "")).textContent.split("\n").join("");
                     ingreso = document.querySelector("strong").textContent.toUpperCase();
 
-                    guardarInfo(columna_question[i], columna_valor[i], i);
             }
+ 
+            for (let i = 0; i < columna_question.length; i++) {
+                switch (columna_question[i].split(" ").join("").trim()){
+                    case "Nombre":
+                        nombre = columna_valor[i]
+                        console.log("Nombre guardado: "+nombre)
+                        break;
+
+                    case "Nombredeusuario":
+                        usuario = columna_valor[i]
+                        console.log("usuario guardado "+usuario)
+                        break;
+
+                    case "CorreoElectrónico":
+                        correo = columna_valor[i]
+                        console.log("correo guardado "+correo)
+                        break;
+
+                    case "Tipodedocumentodeidentidad":
+                        tipoCedula = columna_valor[i]
+                        console.log("tipo de cedula guardado")
+                        break;
+                    
+                    case "Nro.documentodeidentidad":
+                        cedula = columna_valor[i]
+                        console.log("Numero cedula guardado")
+                        break;
+
+                    case "Númerodeteléfono":
+                        numero = columna_valor[i]
+                        console.log("numero guardado")
+                        break;
+                        
+                    case "Estadodondereside":
+                        estado = columna_valor[i]
+                        console.log("estado guardado")
+                        break;
+
+                    case "Monedadepago":
+                        moneda = columna_valor[i]
+                        console.log("moneda guardado")
+                        break;
+
+                    case "Formadepago":
+                        formaPago = columna_valor[i]
+                        console.log("forma de pago guardado")
+                        break;
+
+                    case "Montopagado":
+                        monto = columna_valor[i]
+                        console.log("monto guardado")
+                        break;
+
+                    case "Fechaenlaqueserealizoelpago":
+                        fechaPago = columna_valor[i]
+                        console.log("fecha pago guardado")
+                        break;
+
+                    case "Nro.referenciadepago":
+                        ref = columna_valor[i]
+                        console.log("referencia guardado")
+                        break;
+
+                    case "Niveldeexperienciaenultrasonidomedico":
+                        nivel = columna_valor[i]
+                        console.log("experiencia guardado "+nivel)
+                        break;
+                        
+                    case "Observaciones":
+                        observacion = columna_valor[i]
+                        console.log("observación guardado")
+                        break;
+
+                    default:
+                        console.log("Error de asignación. no guardado: "+columna_question[i]+" Valor: "+columna_valor[i])
+                        break;
+                }
+            }
+
+            let alumno = {
+                "nombre": nombre,
+                "usuario": usuario,
+                "correo": correo,
+                "tipoCedula": tipoCedula,
+                "cedula": cedula,
+                "numero": numero,
+                "estado": estado,
+                "moneda": moneda,
+                "formaPago": formaPago,
+                "monto": monto,
+                "fechaPago": fechaPago,
+                "ref": ref,
+                "nivel": nivel,
+                "observacion": observacion
+            }
+
+            console.log("alumno: " +alumno.nombre)
+
             
-            
-            leerInfo();
-            
+
+            alumnos.push(alumno);
+
+
+
             /*
             var nombre = "";//Nuevo     value_3
             var usuario = "";//Regular  value_25
