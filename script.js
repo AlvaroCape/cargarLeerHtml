@@ -8,21 +8,31 @@ const botonExcel = document.querySelector("#excel");
 var files, question, ingreso;
 var alumnos = [];
 
+var worksheet;
+var workbook;
+
 //Crear excel con los datos cargados del html
 botonExcel.addEventListener("click", e => {
     console.log("click");
+    console.log(alumnos[0]);
+    var p = ["nombre", "correo", "cedula"];
 
-    const worksheet = XLSX.utils.json_to_sheet(alumnos[0]);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Dates");
+    workbook = XLSX.utils.book_new();
+    
+    //workbook.SheetNames.push("Presencial");
 
-    XLSX.writeFile(workbook, "alumno.xlsx");
+    worksheet = XLSX.utils.json_to_sheet(alumnos[0]);
 
-    //alumnos = []    //vaciar despues de agregar los alumnos
+    XLSX.utils.book_append_sheet(workbook, worksheet, "alumnos");
 
+    XLSX.utils.sheet_add_aoa(worksheet, [[p[0], "", p[1]]], { origin: "A3" });
+   
+    XLSX.writeFile(workbook, "abdomen.xlsx", { compression: true });
+
+    alumnos = []    //vaciar despues de agregar los alumnos
 });
 
-//importar 
+//importar
 button.addEventListener("click", e => {
     input.click();
 }); 
@@ -191,7 +201,7 @@ function processFile(file){
                 }
             }
 
-            let alumno = {
+            let alumno = [{
                 "nombre": nombre,
                 "usuario": usuario,
                 "correo": correo,
@@ -206,7 +216,7 @@ function processFile(file){
                 "ref": ref,
                 "nivel": nivel,
                 "observacion": observacion
-            }
+            }]
 
             console.log("alumno: " +alumno.nombre)
 
