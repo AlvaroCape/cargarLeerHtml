@@ -10,11 +10,25 @@
 <body>
 
     <div id="todo">
+        <div id="selectCurso">
+            <p>CURSO:</p>
+            <select name="curso" id="curso">
+                <option value="Abdomen">Abdomen</option>
+                <option value="Peq partes">Peq partes</option>
+                <option value="Obstetricia">Obstetricia</option>
+                <option value="Ginecologia">Ginecologia</option>
+                <option value="Vascular">Vascular</option>
+                <option value="Musculo">Musculo</option>
+                <option value="Pediatria">Pediatria</option>
+            </select>
+        </div>
+            
         <div class="drop-area">
             <h2>Arrastra y suelta los archivos</h2>
             <span>o</span>
             <button class="boton">Selecciona tus archivos</button>
             <input type="file" name="" id="input-file" hidden multiple>
+            <p id="cantidadArchivos"></p>
         </div>
 
         <div class="botones">

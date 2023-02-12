@@ -4,32 +4,50 @@ const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
 const htmlNuevo = document.querySelector("#preview");
 const botonExcel = document.querySelector("#excel");
-
-var files, question, ingreso;
-var alumnos = [];
-
+const nombreArchivo = document.querySelector("#curso");
+var cantidadArchivos = document.querySelector("#cantidadArchivos");
+var question, ingreso;
+var encabezado = [{
+    "NOMBRE": "",
+    "CORREO": "",
+    "TIPO": "",
+    "CEDULA": "",
+    "USUARIO": "",
+    "CONTRASEÑA": "",
+    "TELEFONO": "",
+    "ESTADO": "",
+    "MONTO": "",
+    "MONEDA": "",
+    "FORMA": "",
+    "REFERENCIA": "",
+    "EXPERIENCIA": "",
+    "OBSERVACION": ""
+}]
+var contadorAlumnos = 2;
 var worksheet;
 var workbook;
+
+workbook = XLSX.utils.book_new();
+//workbook.SheetNames.push("Presencial");
+worksheet = XLSX.utils.json_to_sheet(encabezado);
+XLSX.utils.book_append_sheet(workbook, worksheet, "Alumnos");
+XLSX.utils.sheet_add_aoa(worksheet, [["Nombre", "", "Correo","", "Tipo Cedula", "", "Cedula", "", "Usuario", "", "Contraseña","", "Telefono", "", "Estado", "","Monto", "", "Moneda", "", "Forma Pago", "", "Referencia", "", "Experiencia", "", "Observacion"]], { origin: "A1"});
+
 
 //Crear excel con los datos cargados del html
 botonExcel.addEventListener("click", e => {
     console.log("click");
-    console.log(alumnos[0]);
-    var p = ["nombre", "correo", "cedula"];
-
-    workbook = XLSX.utils.book_new();
-    
-    //workbook.SheetNames.push("Presencial");
-
-    worksheet = XLSX.utils.json_to_sheet(alumnos[0]);
-
-    XLSX.utils.book_append_sheet(workbook, worksheet, "alumnos");
-
-    XLSX.utils.sheet_add_aoa(worksheet, [[p[0], "", p[1]]], { origin: "A3" });
    
-    XLSX.writeFile(workbook, "abdomen.xlsx", { compression: true });
-
-    alumnos = []    //vaciar despues de agregar los alumnos
+    XLSX.writeFile(workbook, nombreArchivo.value+".xlsx", { compression: true });
+    
+    workbook = XLSX.utils.book_new();
+    //workbook.SheetNames.push("Presencial");
+    worksheet = XLSX.utils.json_to_sheet(encabezado);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Alumnos");
+    XLSX.utils.sheet_add_aoa(worksheet, [["Nombre", "", "Correo","", "Tipo Cedula", "", "Cedula", "", "Usuario", "", "Contraseña","", "Telefono", "", "Estado", "","Monto", "", "Moneda", "", "Forma Pago", "", "Referencia", "", "Experiencia", "", "Observacion"]], { origin: "A1"});
+    cantidadArchivos.innerHTML = ""
+    //alumnos = []    //vaciar despues de agregar los alumnos
+    contadorAlumnos = 2;
 });
 
 //importar
@@ -58,7 +76,7 @@ dropArea.addEventListener("dragleave", e => {
 
 dropArea.addEventListener("drop", e => {
     e.preventDefault();
-    files = e.dataTransfer.files;
+    let files = e.dataTransfer.files;
     showFiles(files)
     dropArea.classList.remove("active")
     dragText.textContent = "Arrastra y suelta los archivos"
@@ -70,13 +88,23 @@ function showFiles(files) {
         processFile(files);
     }
     else{
+
+        cantidadArchivos.innerHTML = "Archivos cargados: "+files.length
         for (const file of files) {
             processFile(file);
         }
     }
 } 
 
-
+function generarClave(){
+        var pass = '';
+        var str = 'abcdefghijklmnopqrstuvwxyz01234567890123456789';
+        for (let i = 1; i <= 8; i++) {
+            var char = Math.floor(Math.random() * str.length + 1);
+            pass += str.charAt(char)
+        }
+        return pass;
+}
 
 function processFile(file){
     const docType = file.type;
@@ -97,6 +125,7 @@ function processFile(file){
 
             let nombre = "";//
             let usuario = "";//
+            let clave = "";
             let correo = "";     //    
             let tipoCedula = "";// 
             let cedula = "";     //          
@@ -127,72 +156,77 @@ function processFile(file){
                 switch (columna_question[i].split(" ").join("").trim()){
                     case "Nombre":
                         nombre = columna_valor[i]
-                        console.log("Nombre guardado: "+nombre)
+                        //console.log("Nombre guardado: "+nombre)
                         break;
 
                     case "Nombredeusuario":
                         usuario = columna_valor[i]
-                        console.log("usuario guardado "+usuario)
+                        //console.log("usuario guardado "+usuario)
                         break;
 
                     case "CorreoElectrónico":
                         correo = columna_valor[i]
-                        console.log("correo guardado "+correo)
+                        //console.log("correo guardado "+correo)
                         break;
+
+                    case "Email":
+                        correo = columna_valor[i]
+                        //console.log("correo guardado "+correo)
+                    break;
 
                     case "Tipodedocumentodeidentidad":
                         tipoCedula = columna_valor[i]
-                        console.log("tipo de cedula guardado")
+                        //console.log("tipo de cedula guardado")
                         break;
                     
                     case "Nro.documentodeidentidad":
                         cedula = columna_valor[i]
-                        console.log("Numero cedula guardado")
+                        //console.log("Numero cedula guardado")
                         break;
 
                     case "Númerodeteléfono":
                         numero = columna_valor[i]
-                        console.log("numero guardado")
+                        //console.log("numero guardado")
                         break;
                         
                     case "Estadodondereside":
                         estado = columna_valor[i]
-                        console.log("estado guardado")
+                        //console.log("estado guardado")
                         break;
 
                     case "Monedadepago":
                         moneda = columna_valor[i]
-                        console.log("moneda guardado")
+                        //console.log("moneda guardado")
                         break;
 
                     case "Formadepago":
                         formaPago = columna_valor[i]
-                        console.log("forma de pago guardado")
+                        //console.log("forma de pago guardado")
                         break;
 
                     case "Montopagado":
                         monto = columna_valor[i]
-                        console.log("monto guardado")
+                        //console.log("monto guardado")
                         break;
 
                     case "Fechaenlaqueserealizoelpago":
                         fechaPago = columna_valor[i]
-                        console.log("fecha pago guardado")
+                        //console.log("fecha pago guardado")
                         break;
 
                     case "Nro.referenciadepago":
                         ref = columna_valor[i]
-                        console.log("referencia guardado")
+                        //console.log("referencia guardado")
                         break;
 
                     case "Niveldeexperienciaenultrasonidomedico":
                         nivel = columna_valor[i]
-                        console.log("experiencia guardado "+nivel)
+                        //onsole.log("experiencia guardado "+nivel)
                         break;
                         
                     case "Observaciones":
                         observacion = columna_valor[i]
-                        console.log("observación guardado")
+                        //console.log("observación guardado")
                         break;
 
                     default:
@@ -201,7 +235,14 @@ function processFile(file){
                 }
             }
 
-            let alumno = [{
+            clave = generarClave();
+
+            //"NOMBRE", "", "CORREO", "", "TIPO", "", "CEDULA", "", "USUARIO","","CONTRASEÑA","", "TELEFONO","", "ESTADO","", "MONTO","", "MONEDA","", "FORMA","", "REFERENCIA","", "EXPERIENCIA","","OBSERVACION"
+            XLSX.utils.sheet_add_aoa(worksheet, [[nombre, "", correo,"", tipoCedula, "", cedula, "", usuario, "", clave,"", numero, "", estado, "",monto, "", moneda, "", formaPago, "", ref, "", nivel, "", observacion]], { origin: "A"+contadorAlumnos});
+
+            contadorAlumnos++;
+
+            /*let alumno = [{
                 "nombre": nombre,
                 "usuario": usuario,
                 "correo": correo,
@@ -222,7 +263,7 @@ function processFile(file){
 
             
 
-            alumnos.push(alumno);
+            alumnos.push(alumno);*/
 
 
 

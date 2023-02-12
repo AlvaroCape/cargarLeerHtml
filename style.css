@@ -12,8 +12,6 @@ body{
     min-height: 100vh;
 }
 
-
-
 .drop-area{
     border: 5px dashed #ddd;
     height: 500px;
@@ -82,5 +80,24 @@ button{
 
 .failure{
     color: red;
+}
+
+#selectCurso{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#selectCurso p{
+    margin-right: 4px;
+}
+
+#selectCurso select, #cantidadArchivos{ 
+    padding: 5px;
+    background-color: #e0e0e0;
+    color: #131313;
+    font-size: 22px;
 }
 
